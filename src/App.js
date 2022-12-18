@@ -129,7 +129,7 @@ function App() {
             <ul>
               <li id="humidity">Humidity: 23%</li>
               <li id="wind">Wind: 3 Km/H</li>
-              <li id="description">Few clouds</li>
+              <li id="description">Clear</li>
             </ul>
           </div>
           <div className="icon">
