@@ -124,12 +124,12 @@ function App() {
               <br />
             </h1>
             <p>Saturday, 26th<br /> November 2022</p>
-            <p id="description"></p>
           </div>
           <div className="text">
             <ul>
               <li id="humidity">Humidity: 23%</li>
               <li id="wind">Wind: 3 Km/H</li>
+              <li id="description">Few clouds</li>
             </ul>
           </div>
           <div className="icon">
