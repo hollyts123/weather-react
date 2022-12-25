@@ -6,6 +6,47 @@ function App() {
   let [loaded, setLoaded] = useState(false);
   let [city, setCity] = useState('');
   let [weather, setWeather] = useState({});
+  let [unit, setUnit] = useState('C');
+
+
+  function showCelsius(event) {
+    event.preventDefault();
+    setUnit("C");
+
+    function convertToFahrenheit(response) {
+      setWeather({
+        temperature: response.data.main.temp,
+        description: response.data.weather[0].description,
+        humidity: response.data.main.humidity,
+        wind: Math.round(response.data.wind.speed),
+        icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+
+      })
+    }
+    
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b533bb31ab6b7d26400f4e2f73516e81&units=metric`;
+    axios.get(url).then(convertToFahrenheit);
+  }
+
+
+  function showFahrenheit(event) {
+    event.preventDefault();
+    setUnit("F");
+
+    function convertToFahrenheit(response) {
+      setWeather({
+        temperature: response.data.main.temp * 9/5 + 32,
+        description: response.data.weather[0].description,
+        humidity: response.data.main.humidity,
+        wind: Math.round(response.data.wind.speed),
+        icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+
+      })
+    }
+    
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b533bb31ab6b7d26400f4e2f73516e81&units=metric`;
+    axios.get(url).then(convertToFahrenheit);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -27,7 +68,7 @@ function App() {
 
   function changeCity(event) {
     event.preventDefault();
-    setCity(event.target.value);
+    setCity(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1));
   }
 
   if (loaded) {
@@ -52,7 +93,7 @@ function App() {
         {/* Main content */}
         <div className="MainContent">
           <div className="temp">
-            <span id="celsius">°C </span>/<span id="fahrenheit"> °F</span>
+            <span id="celsius" onClick={showCelsius}>°C </span>/<span id="fahrenheit" onClick={showFahrenheit}> °F</span>
           </div>
 
           <div className="text">
@@ -62,7 +103,7 @@ function App() {
               </span>{" "}
               <br />
               <span id="temperature" className="degree">
-                {Math.round(weather.temperature)}°C
+                {Math.round(weather.temperature)}°{unit}
               </span>
               <br />
             </h1>
