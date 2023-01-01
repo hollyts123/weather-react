@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import "./App.css";
+import FormattedDate from "./FormattedDate";
 
 function App() {
   let [loaded, setLoaded] = useState(false);
   let [city, setCity] = useState('');
-  let [weather, setWeather] = useState({});
+  let [weather, setWeather] = useState();
   let [unit, setUnit] = useState('C');
 
 
@@ -20,7 +21,6 @@ function App() {
         humidity: response.data.main.humidity,
         wind: Math.round(response.data.wind.speed),
         icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
-
       })
     }
     
@@ -40,7 +40,6 @@ function App() {
         humidity: response.data.main.humidity,
         wind: Math.round(response.data.wind.speed),
         icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
-
       })
     }
     
@@ -50,16 +49,19 @@ function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    setLoaded(true);
 
     function showWeather(response) {
+      setLoaded(true);
       setWeather({
+        date: new Date(response.data.dt * 1000).toString(),
         temperature: response.data.main.temp,
         description: response.data.weather[0].description,
         humidity: response.data.main.humidity,
         wind: Math.round(response.data.wind.speed),
         icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+
       })
+
     }
 
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b533bb31ab6b7d26400f4e2f73516e81&units=metric`;
@@ -83,10 +85,10 @@ function App() {
               className="search"
               id="search-input"
               placeholder="Search"
-              autofocus
+              autoFocus
               onChange={changeCity}
             />
-            <input type="submit" class="search-btn" value="🔍" />
+            <input type="submit" className="search-btn" value="🔍" />
           </form>
         </div>
 
@@ -98,7 +100,7 @@ function App() {
 
           <div className="text">
             <h1>
-              <span className="city" id="city">
+              <span className="city" id="city" city={city}>
                 {city}
               </span>{" "}
               <br />
@@ -107,8 +109,7 @@ function App() {
               </span>
               <br />
             </h1>
-            <p>Saturday, 26th<br /> November 2022</p>
-            <p id="description"></p>
+            <FormattedDate />
           </div>
           <div className="text">
             <ul>
@@ -140,17 +141,17 @@ function App() {
               className="search"
               id="search-input"
               placeholder="Search"
-              autofocus
+              autoFocus
               onChange={changeCity}
             />
-            <input type="submit" class="search-btn" value="🔍" />
+            <input type="submit" className="search-btn" value="🔍" />
           </form>
         </div>
 
         {/* Main content */}
         <div className="MainContent">
           <div className="temp">
-            <span id="celsius">°C </span>/<span id="fahrenheit"> °F</span>
+            <span id="celsius" onClick={showCelsius}>°C </span>/<span id="fahrenheit" onClick={showFahrenheit}> °F</span>
           </div>
 
           <div className="text">
@@ -164,7 +165,8 @@ function App() {
               </span>
               <br />
             </h1>
-            <p>Saturday, 26th<br /> November 2022</p>
+            <p>Monday 26<br/>
+            December 2022</p>
           </div>
           <div className="text">
             <ul>
