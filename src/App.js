@@ -17,6 +17,7 @@ function App() {
     function convertToFahrenheit(response) {
       setWeather({
         temperature: response.data.main.temp,
+        date: new Date(response.data.dt * 1000).toString(),
         description: response.data.weather[0].description,
         humidity: response.data.main.humidity,
         wind: Math.round(response.data.wind.speed),
@@ -36,6 +37,7 @@ function App() {
     function convertToFahrenheit(response) {
       setWeather({
         temperature: response.data.main.temp * 9/5 + 32,
+        date: new Date(response.data.dt * 1000).toString(),
         description: response.data.weather[0].description,
         humidity: response.data.main.humidity,
         wind: Math.round(response.data.wind.speed),
@@ -109,7 +111,7 @@ function App() {
               </span>
               <br />
             </h1>
-            <FormattedDate />
+            <FormattedDate date={weather.date}/>
           </div>
           <div className="text">
             <ul>
